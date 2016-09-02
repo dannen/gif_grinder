@@ -14,15 +14,15 @@ onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 # valid file format
 # 00:00.00
 # 00,00.00
-# 00:00.00 - 00:00.00 # 0000,0000,0000,0000
-# 00,00.00 - 00,00.00 # 0000,0000,0000,0000
+# 00:00.00 - 00:00.00 # 0000,0000,0000,0000,0.00
+# 00,00.00 - 00,00.00 # 0000,0000,0000,0000,0.00
 
 file1 = onlyfiles[0]
 file2 = onlyfiles[1]
 # print '',file1, file2
 
 # max video length in seconds
-total_t = 20
+total_t = 80
 
 contents = ''
 cropped = 0
@@ -36,9 +36,16 @@ gifspeed = '1'
 # convert time to seconds
 def get_sec(s):
     l = s.split(':')
-    return float(l[0]) * 60 + float(l[1])
-    # alternate for longer videos
-    # return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2])
+    # print "seconds:", s
+    # print "micro:" , (float(l[2]) * .001)
+    # print "s:", len(l)
+    if len(l) >= 4:
+        # alternative for longer videos
+        # 00:00:00.000
+        return int(l[0]) * 3600 + int(l[1]) * 60 +  float(l[2]) + (float(l[3]) * .001)
+    else:
+        # 00:00.000
+        return (float(l[0]) * 60) + float(l[1]) + (float(l[2]) * .001)
 
 # convert to gif
 def processGif():
@@ -114,7 +121,11 @@ for element in contents:
             y_1 = int(crops[1])
             wdt = int(crops[2])
             hgt = int(crops[3])
-            print "x_1:", x_1, "y_1:", y_1, "wdt:", wdt, "hgt:", hgt
+            if len(crops) >= 5:
+                gifspeed = float(crops[4])
+            else:
+                gifspeed = 1
+            print "x_1:", x_1, "y_1:", y_1, "wdt:", wdt, "hgt:", hgt, "speed:", gifspeed
 
             partsdata = cropdata[0].split('-')
             parts = partsdata

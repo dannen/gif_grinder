@@ -11,10 +11,10 @@ The time length of the animated gifs is set by altering the "total_t" value in t
 
 The text file format is as follows:
 
-start - finish # cropstart_x, cropstart_y, crop_width, crop_height
+start - finish # cropstart_x, cropstart_y, crop_width, crop_height, speed
 > 00:00.00 - 00:00.00
-> 00:00.00 - 00:00.00 # 0000,0000,0000,0000
-> 00,00.00 - 00,00.00 # 0000,0000,0000,0000
+> 00:00.00 - 00:00.00 # 0000,0000,0000,0000,0.00
+> 00,00.00 - 00,00.00 # 0000,0000,0000,0000,0.00
 
 Leaving out the crop values is completely valid.
 
