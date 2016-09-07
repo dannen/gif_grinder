@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
 import os
-from moviepy.editor import VideoFileClip
-from moviepy.video.fx.all import *
 from os import listdir
 from os.path import isfile, join
+from moviepy.editor import VideoFileClip
+from moviepy.video.fx.all import *
 
 
 mypath = os.getcwd()
@@ -27,6 +27,7 @@ total_t = 80
 contents = ''
 cropped = 0
 currentgifnumber = 0
+scale = ''
 videoname = ''
 
 # speed up gif >1, slow down gif <1
@@ -67,7 +68,9 @@ def processGif():
             clip = crop(VideoFileClip(videoname).subclip((starttime), (endtime)), x1=(x_1), y1=(y_1), width=(wdt), height=(hgt))
         else:
             clip = VideoFileClip(videoname).subclip((starttime), (endtime))
-
+        # if scale:
+            # disabled, too slow
+            # clip = resize(VideoFileClip(videoname), newsize=scale)
         # clip = VideoFileClip(procvideoname).subclip((01,59.60),(02,04.24))
         endfile = shortvideoname + "_" + str(currentgifnumber) + ".gif"
         # optendfile = shortvideoname + "_opt_" + str(currentgifnumber) + ".gif"
@@ -92,12 +95,13 @@ for i in onlyfiles:
     if "Untitled" in processfile:
         # print processfile
         contents = [contents.rstrip('\n') for contents in open(processfile)]
+        # replace with generator?
         contents = filter(lambda name: name.strip(), contents)
         contents = filter(None, contents)
         # print contents
         # with open(processfile) as f:
         #     contents = f.readlines()
-    elif "gif" in processfile:
+    elif ".gif" in processfile:
         print ""
     elif "ficache" in processfile:
         os.unlink(processfile)
@@ -125,7 +129,9 @@ for element in contents:
                 gifspeed = float(crops[4])
             else:
                 gifspeed = 1
-            print "x_1:", x_1, "y_1:", y_1, "wdt:", wdt, "hgt:", hgt, "speed:", gifspeed
+            if len(crops) >= 6:
+                scale = float(crops[5])
+            print "x_1:", x_1, "y_1:", y_1, "wdt:", wdt, "hgt:", hgt, "speed:", gifspeed, scale
 
             partsdata = cropdata[0].split('-')
             parts = partsdata
@@ -149,3 +155,19 @@ for element in contents:
         # print "video:", videoname
         # print "shortvideoname:", shortvideoname
         processGif()
+
+# post process colorize
+# convert 1.gif -fill green -tint 100 1b.gif
+
+# use exifdata to get size of image
+# do math to sort out image combination spacing and sizing
+# convert green.gif -gamma 0.65 -black-threshold 10% green1.gif
+
+# moviepy.video.fx.all.headblur(clip, fx, fy, r_zone, r_blur=None)
+# Returns a filter that will blurr a moving part (a head ?) of the frames. The
+# position of the blur at time t is defined by (fx(t), fy(t)), the radius of
+# the blurring by r_zone and the intensity of the blurring by r_blur. Requires
+ # OpenCV for the circling and the blurring. Automatically deals with the case
+ # where part of the image goes offscreen.
+
+ # exiftool -ImageSize video.avi
