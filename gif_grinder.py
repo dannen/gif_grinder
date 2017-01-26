@@ -44,9 +44,14 @@ def get_sec(s):
         # alternative for longer videos
         # 00:00:00.000
         return int(l[0]) * 3600 + int(l[1]) * 60 +  float(l[2]) + (float(l[3]) * .001)
-    else:
+    elif len(l) == 3:
         # 00:00.000
         return (float(l[0]) * 60) + float(l[1]) + (float(l[2]) * .001)
+    else:
+        # 00:00.000
+        return (float(l[0]) * 60) + (float(l[1]) * .001)
+
+
 
 # convert to gif
 def processGif():
@@ -118,43 +123,53 @@ print "total gifs:", totalgifs
 for element in contents:
     currentgifnumber += 1
     if currentgifnumber <= totalgifs:
-        if "#" in element:
-            cropdata = element.split('#')
-            crops = cropdata[-1].split(',')
-            x_1 = int(crops[0])
-            y_1 = int(crops[1])
-            wdt = int(crops[2])
-            hgt = int(crops[3])
-            if len(crops) >= 5:
-                gifspeed = float(crops[4])
-            else:
-                gifspeed = 1
-            if len(crops) >= 6:
-                scale = float(crops[5])
-            print "x_1:", x_1, "y_1:", y_1, "wdt:", wdt, "hgt:", hgt, "speed:", gifspeed, scale
-
-            partsdata = cropdata[0].split('-')
-            parts = partsdata
-            cropped = 1
+        if element.startswith("#"):
+            print "skipping line: ", currentgifnumber
+            print ('')
 
         else:
-            parts = element.split("-")
-            cropped = 0
-        # print "parts:", parts
-        starttime0 = str(parts[0]).replace(",", ":").strip()
-        endtime0 = str(parts[-1]).replace(",", ":").strip()
-        print "starttime:", starttime0, "endtime:", endtime0
-        starttime = get_sec(starttime0)
-        endtime = get_sec(endtime0)
-        print "starttime:", starttime, "endtime:", endtime
+            # print "element:", element
+
+            if "#" in element:
+                cropdata = element.split('#')
+                crops = cropdata[-1].split(',')
+                x_1 = int(crops[0])
+                y_1 = int(crops[1])
+                wdt = int(crops[2])
+                hgt = int(crops[3])
+                if len(crops) >= 5:
+                    gifspeed = float(crops[4])
+                else:
+                    gifspeed = 1
+                if len(crops) >= 6:
+                    scale = float(crops[5])
+                print "x_1:", x_1, "y_1:", y_1, "wdt:", wdt, "hgt:", hgt, "speed:", gifspeed, scale
+
+                partsdata = cropdata[0].split('-')
+                parts = partsdata
+                cropped = 1
+
+            else:
+                parts = element.split("-")
+                cropped = 0
+
+            # print "element:", element
+            # print "parts:", parts
+            starttime0 = str(parts[0]).replace(",", ":").strip()
+            endtime0 = str(parts[-1]).replace(",", ":").strip()
+            print "starttime:", starttime0, "endtime:", endtime0
+            starttime = get_sec(starttime0)
+            endtime = get_sec(endtime0)
+            print "starttime:", starttime, "endtime:", endtime
 
 
-        print "currentgifnumber:", currentgifnumber
-        # print "st:", starttime
-        # print "et:", endtime
-        # print "video:", videoname
-        # print "shortvideoname:", shortvideoname
-        processGif()
+            print "currentgifnumber:", currentgifnumber
+            # print "st:", starttime
+            # print "et:", endtime
+            # print "video:", videoname
+            # print "shortvideoname:", shortvideoname
+            # print "parts:", parts
+            processGif()
 
 # post process colorize
 # convert 1.gif -fill green -tint 100 1b.gif
