@@ -12,15 +12,15 @@ The time length of the animated gifs is set by altering the "total_t" value in t
 The text file format is as follows:
 
 start - finish # cropstart_x, cropstart_y, crop_width, crop_height, speed
-> 00:00.00 - 00:00.00
-> 00:00.00 - 00:00.00 # 0000,0000,0000,0000,0.00
-> 00,00.00 - 00,00.00 # 0000,0000,0000,0000,0.00
+> 00:00.00 - 00:00.00<br>
+> 00:00.00 - 00:00.00 # 0000,0000,0000,0000,0.00<br>
+> 00,00.00 - 00,00.00 # 0000,0000,0000,0000,0.00<br>
 
 Leaving out the crop values is completely valid.
 
 Expected time values are as follows:
 
-> minutes:seconds.microseconds
+> minutes:seconds.microseconds<br>
 > minutes,seconds.microseconds
 
 The gifs will be created using the name of the movie file with an incremental value appended.
@@ -29,12 +29,12 @@ The gifs will be created using the name of the movie file with an incremental va
 
 creates:
 
-> mymovie1.gif
+> mymovie1.gif<br>
 > mymovie2.gif
 
 from a text file containing:
 
-> 00:01.00 - 00:04.00
+> 00:01.00 - 00:04.00<br>
 > 00:06.01 - 00:10.15
 
 If the calculated time value in your text file exceeds the maximum time (total_t), a warning message will be printed and creation of the gif will be skipped.
