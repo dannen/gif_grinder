@@ -11,11 +11,25 @@ mypath = os.getcwd()
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 
 # assumes second file is "Untitled Document"
-# valid file format
-# 00:00.00
-# 00,00.00
+# valid file formats
+
+# 00.00 - 00.00
+# 00,00 - 00,00
+
+# 00:00.00 - 00:00.00
+# 00,00.00 - 00,00.00
+
+# 00:00:00.00 - 00:00:00.00
+# 00,00,00.00 - 00,00,00.00
+
+# 00.00 - 00.00 # 0000,0000,0000,0000,0.00
+# 00,00 - 00,00 # 0000,0000,0000,0000,0.00
+
 # 00:00.00 - 00:00.00 # 0000,0000,0000,0000,0.00
 # 00,00.00 - 00,00.00 # 0000,0000,0000,0000,0.00
+
+# 00:00:00,00.00 - 00:00:00,00.00 # 0000,0000,0000,0000,0.00
+# 00,00,00,00.00 - 00,00,00,00.00 # 0000,0000,0000,0000,0.00
 
 file1 = onlyfiles[0]
 file2 = onlyfiles[1]
@@ -34,23 +48,25 @@ videoname = ''
 # gifspeed = '0.5'
 gifspeed = '1'
 
+
 # convert time to seconds
 def get_sec(s):
     l = s.split(':')
     # print "seconds:", s
     # print "micro:" , (float(l[2]) * .001)
     # print "s:", len(l)
-    if len(l) >= 4:
-        # alternative for longer videos
+    if len(l) == 5:
+        # 00:00:00:00.00
+        return int(l[1]) * 86400 + int(l[1]) * 3600 + int(l[2]) * 60 + float(l[3]) + (float(l[4]) * .001)
+    elif len(l) == 4:
         # 00:00:00.000
-        return int(l[0]) * 3600 + int(l[1]) * 60 +  float(l[2]) + (float(l[3]) * .001)
+        return int(l[0]) * 3600 + int(l[1]) * 60 + float(l[2]) + (float(l[3]) * .001)
     elif len(l) == 3:
         # 00:00.000
         return (float(l[0]) * 60) + float(l[1]) + (float(l[2]) * .001)
     else:
-        # 00:00.000
+        # 00.000
         return (float(l[0]) * 60) + (float(l[1]) * .001)
-
 
 
 # convert to gif
@@ -182,7 +198,7 @@ for element in contents:
 # Returns a filter that will blurr a moving part (a head ?) of the frames. The
 # position of the blur at time t is defined by (fx(t), fy(t)), the radius of
 # the blurring by r_zone and the intensity of the blurring by r_blur. Requires
- # OpenCV for the circling and the blurring. Automatically deals with the case
- # where part of the image goes offscreen.
+# OpenCV for the circling and the blurring. Automatically deals with the case
+# where part of the image goes offscreen.
 
- # exiftool -ImageSize video.avi
+# exiftool -ImageSize video.avi
