@@ -57,16 +57,16 @@ def get_sec(s):
     # print "s:", len(l)
     if len(l) == 5:
         # 00:00:00:00.00
-        return int(l[1]) * 86400 + int(l[1]) * 3600 + int(l[2]) * 60 + float(l[3]) + (float(l[4]) * .001)
+        return int(l[1]) * 86400 + int(l[1]) * 3600 + int(l[2]) * 60 + float(l[3]) + (float(l[4]) )
     elif len(l) == 4:
         # 00:00:00.000
-        return int(l[0]) * 3600 + int(l[1]) * 60 + float(l[2]) + (float(l[3]) * .001)
+        return int(l[0]) * 3600 + int(l[1]) * 60 + float(l[2]) + (float(l[3]) )
     elif len(l) == 3:
         # 00:00.000
-        return (float(l[0]) * 60) + float(l[1]) + (float(l[2]) * .001)
+        return (float(l[0]) * 60) + float(l[1]) + (float(l[2]) )
     else:
         # 00.000
-        return (float(l[0]) * 60) + (float(l[1]) * .001)
+        return (float(l[0]) * 60) + (float(l[1]) )
 
 
 # convert to gif
