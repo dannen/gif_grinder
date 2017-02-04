@@ -50,3 +50,7 @@ Currently the script looks for a file named "Untitled" as for the list of times 
 
 *files with "gif" in the name (not just the suffix) will be skipped.
 *files containing "ficache" or "fispool" will be deleted as the script assumes they were leftover from a previous failed run of the gif_grinder script.
+
+For text overly to work properly you may need to edit your /etc/ImageMagic-6/policy.xml file.  Comment out the last policy domain line as below:
+
+> <!-- <policy domain="path" rights="none" pattern="@*" /> -->
