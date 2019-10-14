@@ -51,27 +51,9 @@ gifspeed = '1'
 
 # convert time to seconds
 def get_sec(s):
-    vidlen = s.split(':')
-    # print "seconds:", s
-    # print "micro:" , (float(l[2]) * .001)
-    # print "s:", len(l)
-    if len(vidlen) == 5:
-        # 00:00:00:00.000
-        print("1")
-        return (int(vidlen[1]) * 604800) + (int(vidlen[1]) * 86400) + (int(vidlen[2]) * 3600) + (float(vidlen[3]) * 60) + (float(vidlen[4]))
-    elif len(vidlen) == 4:
-        # 00:00:00.000
-        print("2")
-        return (int(vidlen[0]) * 86400) + (int(vidlen[1]) * 3600) + (float(vidlen[2]) * 60) + (float(vidlen[3]))
-    elif len(vidlen) == 3:
-        # 00:00.000
-        print("3")
-        return (float(vidlen[0]) * 3660) + (float(vidlen[1]) * 60) + (float(vidlen[2]))
-    else:
-        # 00.000
-        print("4")
-        return (float(vidlen[0]) * 60) + (float(vidlen[1]))
-
+    remainder = s.split('.')
+    # take the number of fields (i, x) and use that as the exponent. multiply 60 seconds by the exponent.  add remaining microseconds.
+    return(sum(float(x) * 60 ** i for i, x in enumerate(reversed(remainder[0].split(":"))))) + (float(remainder[1]) * 0.001)
 
 # convert to gif
 def processGif():
