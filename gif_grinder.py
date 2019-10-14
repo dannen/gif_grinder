@@ -51,22 +51,26 @@ gifspeed = '1'
 
 # convert time to seconds
 def get_sec(s):
-    l = s.split(':')
+    vidlen = s.split(':')
     # print "seconds:", s
     # print "micro:" , (float(l[2]) * .001)
     # print "s:", len(l)
-    if len(l) == 5:
-        # 00:00:00:00.00
-        return int(l[1]) * 86400 + int(l[1]) * 3600 + int(l[2]) * 60 + float(l[3]) + (float(l[4]) )
-    elif len(l) == 4:
+    if len(vidlen) == 5:
+        # 00:00:00:00.000
+        print("1")
+        return (int(vidlen[1]) * 604800) + (int(vidlen[1]) * 86400) + (int(vidlen[2]) * 3600) + (float(vidlen[3]) * 60) + (float(vidlen[4]))
+    elif len(vidlen) == 4:
         # 00:00:00.000
-        return int(l[0]) * 3600 + int(l[1]) * 60 + float(l[2]) + (float(l[3]) )
-    elif len(l) == 3:
+        print("2")
+        return (int(vidlen[0]) * 86400) + (int(vidlen[1]) * 3600) + (float(vidlen[2]) * 60) + (float(vidlen[3]))
+    elif len(vidlen) == 3:
         # 00:00.000
-        return (float(l[0]) * 60) + float(l[1]) + (float(l[2]) )
+        print("3")
+        return (float(vidlen[0]) * 3660) + (float(vidlen[1]) * 60) + (float(vidlen[2]))
     else:
         # 00.000
-        return (float(l[0]) * 60) + (float(l[1]) )
+        print("4")
+        return (float(vidlen[0]) * 60) + (float(vidlen[1]))
 
 
 # convert to gif
@@ -105,25 +109,33 @@ def processGif():
         # call(gifsicle)
 
     else:
-        print "clip too long."
+        print("clip too long.")
 
 # process directory listing
 # blank lines are purged
 # gif files are skipped
 # temp files for moviepy are deleted
+
+
 for i in onlyfiles:
+    # print("file:", i)
     processfile = i
     if "Untitled" in processfile:
         # print processfile
         contents = [contents.rstrip('\n') for contents in open(processfile)]
+        # print("Contents1:", contents)
         # replace with generator?
         contents = filter(lambda name: name.strip(), contents)
-        contents = filter(None, contents)
+        # print("Contents2:", contents)
+        # contents = filter(None, contents)
+        # print("Contents3:", contents)
         # print contents
         # with open(processfile) as f:
         #     contents = f.readlines()
+        totalgifs = len(contents)
+        # print("total gifs:", totalgifs)
     elif ".gif" in processfile:
-        print ""
+        print("")
     elif "ficache" in processfile:
         os.unlink(processfile)
     elif "fispool" in processfile:
@@ -132,16 +144,14 @@ for i in onlyfiles:
         videoname = i
         shortvideoname = i.split('.')[0]
 
-totalgifs = len(contents)
-print "total gifs:", totalgifs
 
 # parse start end timestamps
 for element in contents:
     currentgifnumber += 1
     if currentgifnumber <= totalgifs:
         if element.startswith("#"):
-            print "skipping line: ", currentgifnumber
-            print ('')
+            print("skipping line: ", currentgifnumber)
+            print('')
 
         else:
             # print "element:", element
@@ -159,7 +169,7 @@ for element in contents:
                     gifspeed = 1
                 if len(crops) >= 6:
                     scale = float(crops[5])
-                print "x_1:", x_1, "y_1:", y_1, "wdt:", wdt, "hgt:", hgt, "speed:", gifspeed, scale
+                print("x_1:", x_1, "y_1:", y_1, "wdt:", wdt, "hgt:", hgt, "speed:", gifspeed, scale)
 
                 partsdata = cropdata[0].split('-')
                 parts = partsdata
@@ -169,17 +179,17 @@ for element in contents:
                 parts = element.split("-")
                 cropped = 0
 
-            # print "element:", element
-            # print "parts:", parts
-            starttime0 = str(parts[0]).replace(",", ":").strip()
-            endtime0 = str(parts[-1]).replace(",", ":").strip()
-            print "starttime:", starttime0, "endtime:", endtime0
+            # print("element:", element)
+            # print("parts:", parts)
+            starttime0 = str(parts[0]).replace(",", ".").strip()
+            endtime0 = str(parts[-1]).replace(",", ".").strip()
+            print("0starttime:", starttime0, "endtime:", endtime0)
+
             starttime = get_sec(starttime0)
             endtime = get_sec(endtime0)
-            print "starttime:", starttime, "endtime:", endtime
+            print("1starttime:", starttime, "endtime:", endtime)
 
-
-            print "currentgifnumber:", currentgifnumber
+            print("currentgifnumber:", currentgifnumber)
             # print "st:", starttime
             # print "et:", endtime
             # print "video:", videoname
