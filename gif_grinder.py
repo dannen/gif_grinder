@@ -55,6 +55,7 @@ def get_sec(s):
     # take the number of fields (i, x) and use that as the exponent. multiply 60 seconds by the exponent.  add remaining microseconds.
     return(sum(float(x) * 60 ** i for i, x in enumerate(reversed(remainder[0].split(":"))))) + (float(remainder[1]) * 0.001)
 
+
 # convert to gif
 def processGif():
     # print "st:", starttime
