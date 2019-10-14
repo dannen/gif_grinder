@@ -10,26 +10,17 @@ from moviepy.video.fx.all import *
 mypath = os.getcwd()
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 
-# assumes second file is "Untitled Document"
-# valid file formats
-
-# 00.00 - 00.00
-# 00,00 - 00,00
-
-# 00:00.00 - 00:00.00
-# 00,00.00 - 00,00.00
-
+# assumes target filename is "Untitled"
+# valid file contents
+# start - finish # cropstart_x, cropstart_y, crop_width, crop_height, speed
+#
+# 00:00:00:00.00 - 00:00:00:00.00
 # 00:00:00.00 - 00:00:00.00
-# 00,00,00.00 - 00,00,00.00
-
-# 00.00 - 00.00 # 0000,0000,0000,0000,0.00
-# 00,00 - 00,00 # 0000,0000,0000,0000,0.00
-
+# 00:00.00 - 00:00.00
+# 00.00 - 00.00
+#
 # 00:00.00 - 00:00.00 # 0000,0000,0000,0000,0.00
 # 00,00.00 - 00,00.00 # 0000,0000,0000,0000,0.00
-
-# 00:00:00,00.00 - 00:00:00,00.00 # 0000,0000,0000,0000,0.00
-# 00,00,00,00.00 - 00,00,00,00.00 # 0000,0000,0000,0000,0.00
 
 file1 = onlyfiles[0]
 file2 = onlyfiles[1]
