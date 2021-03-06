@@ -53,4 +53,4 @@ Currently the script looks for a file named "Untitled" as for the list of times 
 
 For text overly to work properly you may need to edit your /etc/ImageMagic-6/policy.xml file.  Comment out the last policy domain line as below:
 
-> <!-- <policy domain="path" rights="none" pattern="@*" /> -->
+<!-- <policy domain="path" rights="none" pattern="@*" /> -->
