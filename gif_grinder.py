@@ -92,7 +92,7 @@ def processGif():
 
 
 for i in onlyfiles:
-    # print("file:", i)
+    print("file:", i)
     processfile = i
     if "Untitled" in processfile:
         # print processfile
@@ -109,6 +109,8 @@ for i in onlyfiles:
         totalgifs = len(contents)
         # print("total gifs:", totalgifs)
     elif ".gif" in processfile:
+        print("")
+    elif ".py" in processfile:
         print("")
     elif "ficache" in processfile:
         os.unlink(processfile)
